@@ -1,0 +1,127 @@
+
+Task Overview:
+
+Simulate a complete Credit Risk Modeling project using a realistically generated synthetic dataset of 2000 samples that mimics consumer credit behavior (like credit card or personal loan users).
+
+The deliverables must include:
+
+✅ Python notebook with complete end-to-end modeling pipeline
+
+✅ Final CSV dataset (credit_risk_synthetic.csv)
+
+✅ Detailed PDF/Markdown report with analysis and beautiful visualizations
+
+✅ Business-style scorecard summary
+
+✅ Visual dashboards or static charts for all EDA and monitoring steps
+
+📌 Part 1: Data Generation
+Generate a synthetic dataset of 2000 records with realistic distributions (not purely random).
+
+Ensure variables are inspired by actual LendingClub or credit card datasets.
+
+Variable categories should include:
+
+🔹 Demographics / Application Variables:
+
+age, annual_income, emp_length, home_ownership, loan_amount, purpose, loan_term, verification_status
+
+🔹 Behavioral / Credit History:
+
+revol_util, revol_bal, earliest_credit_line (date), credit_inquiries_last_6m, open_credit_lines, credit_utilization, delinquency_2yrs, total_current_balance
+
+🔹 Target Variables:
+
+loan_status (simulate fully_paid, charged_off, default)
+
+recovered_amount
+
+total_rec_prncp
+
+funded_amnt
+
+📌 Part 2: Preprocessing & Feature Engineering
+Apply the following transformations in the notebook:
+
+✅ Missing Value Treatment
+Median for numeric, mode or “Unknown” for categoricals
+
+✅ Derived Features:
+installment_to_income = installment / annual_income
+
+months_since_earliest_credit = issue_date - earliest_credit_line
+
+credit_utilization = revol_bal / credit_limit
+
+✅ Feature Binning
+Use fine classing via quantiles (pd.qcut) on continuous variables
+
+Use coarse classing by merging bins with similar default rates
+
+✅ WOE & IV:
+Calculate WOE and IV for each predictor variable (after binning)
+
+Drop variables with IV < 0.02
+
+Apply WOE transformation to final features
+
+📌 Part 3: Target Variables
+🎯 PD:
+Binary target:
+
+\text{default_flag} = 1 \text{ if loan_status = 'Charged Off' or 'Default'};\quad 0 \text{ otherwise}
+🎯 LGD:
+\text{LGD} = \frac{\text{funded_amnt} - \text{recovered_amount}}{\text{funded_amnt}}
+🎯 EAD:
+\text{EAD} = \text{funded_amnt} - \text{total_rec_prncp}
+📌 Part 4: Model Building
+✅ PD Model:
+Use logistic regression
+
+Evaluate using AUC, KS-statistic
+
+Generate a scorecard from logistic model coefficients
+
+Output: Probability of Default + score
+
+✅ LGD & EAD Models:
+Use beta regression or any regression algorithm that handles fractional outputs (0–1)
+
+Evaluate using RMSE, R²
+
+📌 Part 5: Model Monitoring
+Create tracking charts for:
+
+KS Statistic
+
+PSI (Population Stability Index) — simulate time drift over 2 months
+
+Include data drift and feature drift visualizations
+
+📌 Part 6: Report & Visualizations
+Create a structured report with:
+
+📊 Descriptive stats & univariate analysis
+
+🔍 Bivariate analysis vs. target
+
+📈 Correlation heatmap
+
+📉 Default rate plots by variable (bin-wise)
+
+🎯 ROC Curve, AUC, KS for PD
+
+📊 PSI bar chart
+
+📋 Scorecard summary (score buckets, % defaults)
+
+🔚 Output Structure:
+credit_risk_synthetic.csv – full dataset after cleaning
+
+credit_risk_modeling.ipynb – Jupyter notebook with all code
+
+credit_risk_report.pdf or Markdown file – detailed technical + business analysis
+
+PNG/Plotly charts embedded for visual clarity
+
+(Optional) Export scorecard in Excel-style table
